@@ -4,19 +4,27 @@ from django.db import models
 
 
 class Video(models.Model):
-    username = models.CharField(max_length=100, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
-    hash = models.CharField(max_length=64, unique=True)
-    size = models.PositiveIntegerField()
-    uploaded_at = models.DateTimeField(auto_now_add=True)
-    file = models.FileField(
-        upload_to="/to_process/",
+    # user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.CharField(max_length=100)
+    video_file = models.FileField(
+        upload_to="src/video/videos",
         validators=[
             FileExtensionValidator(
                 allowed_extensions=["mp4", "avi", "mkv", "mov", "wmv"]
             ),
         ],
     )
+    upload_timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.user} - {self.video_file.name}"
+
+
+class ProcessedVideo(models.Model):
+    # user = models.ForeignKey(User, on_delete=models.CASCADE)
+    video = models.ForeignKey(Video, on_delete=models.CASCADE)
+    audio_file = models.FileField(upload_to="src/video/audios")
+    extraction_timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.video.video_file.name} - {self.audio_file.name}"

@@ -17,8 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+from video.views import AudioExtractionView
+
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("accounts/", include("accounts.urls")),
-    path("video/api/", include("video.urls")),
+    # path("accounts/", include("accounts.urls")),
+    path("video/api/", include("video.urls", namespace="video")),
+    # path("video/", AudioExtractionView.as_view())
 ]
