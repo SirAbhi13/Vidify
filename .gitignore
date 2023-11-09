@@ -76,3 +76,9 @@ nosetests.xml
 setup.cfg
 .pre-commit-config.yaml
 .editorconfig
+
+
+#uploaded files
+
+src/video/videos
+src/video/audios
