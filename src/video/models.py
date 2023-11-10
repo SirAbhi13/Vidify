@@ -23,7 +23,7 @@ class Video(models.Model):
 class ProcessedVideo(models.Model):
     # user = models.ForeignKey(User, on_delete=models.CASCADE)
     video = models.ForeignKey(Video, on_delete=models.CASCADE)
-    audio_file = models.FileField(upload_to="src/video/audios")
+    audio_file = models.CharField(max_length=255)
     extraction_timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
