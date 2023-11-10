@@ -80,5 +80,4 @@ setup.cfg
 
 #uploaded files
 
-src/video/videos
-src/video/audios
+src/video/media

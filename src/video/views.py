@@ -7,14 +7,14 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import ProcessedVideo, Video
-from .serializers import VideoSerializer
+from .serializers import AudioExtractionSerializer
 
 
 class AudioExtractionView(APIView):
     # parser_classes = [FileUploadParser]
     def post(self, request):
-        # serializer = VideoSerializer(data={"video_file": request.FILES['video_file']})
-        serializer = VideoSerializer(data=request.data)
+        # serializer = AudioExtractionSerializer(data={"video_file": request.FILES['video_file']})
+        serializer = AudioExtractionSerializer(data=request.data)
 
         if serializer.is_valid():
             video = Video.objects.create(
@@ -45,10 +45,13 @@ class AudioExtractionView(APIView):
         return Response({"detail": "succes"}, status=status.HTTP_200_OK)
 
     def extract_audio(self, video_path):
-        audio_path = (
-            f"src/video/audios/audio_{os.path.basename(video_path).split('.')[0]}.mp3"
-        )
+        audio_path = f"src/video/media/audios/audio_{os.path.basename(video_path).split('.')[0]}.mp3"
         subprocess.run(
             ["ffmpeg", "-i", video_path, "-q:a", "0", "-map", "a", audio_path]
         )
         return audio_path
+
+
+# class WatermarkVideoView(APIView):
+
+#     def post (self,request)

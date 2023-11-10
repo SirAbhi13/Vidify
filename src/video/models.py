@@ -7,7 +7,7 @@ class Video(models.Model):
     # user = models.ForeignKey(User, on_delete=models.CASCADE)
     user = models.CharField(max_length=100)
     video_file = models.FileField(
-        upload_to="src/video/videos",
+        upload_to="src/video/media/videos",
         validators=[
             FileExtensionValidator(
                 allowed_extensions=["mp4", "avi", "mkv", "mov", "wmv"]
@@ -32,3 +32,22 @@ class ProcessedVideo(models.Model):
 
     def __str__(self):
         return f"{self.video.video_file.name} - {self.audio_file}"
+
+
+class WatermarkedVideo(models.Model):
+    video = models.ForeignKey(Video, on_delete=models.CASCADE)
+    watermark_image = models.ImageField(
+        upload_to="src/video/media/images",
+        validators=[
+            FileExtensionValidator(allowed_extensions=["jpg", "png"]),
+        ],
+    )
+    watermarked_video_path = models.CharField(max_length=255)
+
+    lazy_position = models.CharField(max_length=20, null=True)
+    custom_coordinate_X = models.IntegerField(null=True)
+    custom_coordinate_Y = models.IntegerField(null=True)
+    scale = models.DecimalField(max_digits=3, decimal_places=2, default=0.2)
+
+    def __str__(self):
+        return f"{self.video.video_file.name} - {self.watermark_image.name}"

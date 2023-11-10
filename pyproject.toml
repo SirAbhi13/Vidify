@@ -12,6 +12,7 @@ djangorestframework = "^3.14.0"
 python-dotenv = "^1.0.0"
 ffmpeg-python = "^0.2.0"
 psycopg2 = "^2.9.9"
+pillow = "^10.1.0"
 
 
 [build-system]
