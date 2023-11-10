@@ -14,7 +14,7 @@ class AudioExtractionSerializer(serializers.Serializer):
 
 
 class WatermarkSerializer(serializers.Serializer):
-    user = serializers.CharField(required=True, max_length=50)
+    # user = serializers.CharField(required=True, max_length=50)
     video_file = serializers.FileField(
         validators=[
             FileExtensionValidator(
@@ -28,7 +28,15 @@ class WatermarkSerializer(serializers.Serializer):
         ]
     )
 
-    lazy_position = serializers.CharField(max_length=20)
-    custom_coordinate_X = serializers.IntegerField()
-    custom_coordinate_Y = serializers.IntegerField()
-    scale = serializers.DecimalField(max_digits=3, decimal_places=2)
+    lazy_position = serializers.CharField(max_length=20, required=False)
+    custom_coordinate_X = serializers.IntegerField(required=False)
+    custom_coordinate_Y = serializers.IntegerField(required=False)
+    scale = serializers.DecimalField(max_digits=3, decimal_places=2, required=False)
+
+    def validate_lazy_position(self, value):
+        lp = ["top-right", "top-left", "bottom-right", "bottom-left", "center"]
+        if value is not None and value not in lp:
+            raise serializers.ValidationError(
+                "Not a valid lazy position. Acceptable positions are top-left, top-right, bottom-left, bottom-right"
+            )
+        return value

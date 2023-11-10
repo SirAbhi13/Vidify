@@ -35,6 +35,7 @@ class ProcessedVideo(models.Model):
 
 
 class WatermarkedVideo(models.Model):
+    user = models.CharField(max_length=100)
     video = models.ForeignKey(Video, on_delete=models.CASCADE)
     watermark_image = models.ImageField(
         upload_to="src/video/media/images",
@@ -43,7 +44,7 @@ class WatermarkedVideo(models.Model):
         ],
     )
     watermarked_video_path = models.CharField(max_length=255)
-
+    overlay_timestamp = models.DateTimeField(auto_now_add=True)
     lazy_position = models.CharField(max_length=20, null=True)
     custom_coordinate_X = models.IntegerField(null=True)
     custom_coordinate_Y = models.IntegerField(null=True)
