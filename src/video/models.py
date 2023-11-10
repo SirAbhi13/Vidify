@@ -26,5 +26,9 @@ class ProcessedVideo(models.Model):
     audio_file = models.CharField(max_length=255)
     extraction_timestamp = models.DateTimeField(auto_now_add=True)
 
+    def get_audio_file_object(self):
+        with open(self.audio_file, "rb") as file:
+            yield file
+
     def __str__(self):
-        return f"{self.video.video_file.name} - {self.audio_file.name}"
+        return f"{self.video.video_file.name} - {self.audio_file}"
