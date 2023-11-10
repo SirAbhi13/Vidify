@@ -1,24 +1,28 @@
 import os
 import subprocess
 
+from django.conf import settings
 from django.http import FileResponse
 from rest_framework import status
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import ProcessedVideo, Video, WatermarkedVideo
 from .serializers import AudioExtractionSerializer, WatermarkSerializer
 
+authentication = getattr(settings, "AUTHENTICATION", True)
+
 
 class AudioExtractionView(APIView):
-    # parser_classes = [FileUploadParser]
+    permission_classes = (IsAuthenticated if authentication else AllowAny,)
+
     def post(self, request):
-        # serializer = AudioExtractionSerializer(data={"video_file": request.FILES['video_file']})
         serializer = AudioExtractionSerializer(data=request.data)
 
         if serializer.is_valid():
             video = Video.objects.create(
-                user="tester",  # Assuming user is authenticated
+                user=request.user,  # Assuming user is authenticated
                 video_file=serializer.validated_data["video_file"],
             )
             audio_path = self.extract_audio(video.video_file.path)
@@ -50,17 +54,19 @@ class AudioExtractionView(APIView):
 
 
 class WatermarkVideoView(APIView):
+    permission_classes = (IsAuthenticated if authentication else AllowAny,)
+
     def post(self, request):
         serializer = WatermarkSerializer(data=request.data)
 
         if serializer.is_valid():
             video = Video.objects.create(
-                user="tester",
+                user=request.user,
                 video_file=serializer.validated_data["video_file"],
             )
-            x_cord = serializer.validated_data.get("custom_coordinate_X")
-            y_cord = serializer.validated_data.get("custom_coordinate_Y")
-            lazy_pos = serializer.validated_data.get("lazy_position")
+            x_cord = serializer.validated_data.get("custom_coordinate_X", None)
+            y_cord = serializer.validated_data.get("custom_coordinate_Y", None)
+            lazy_pos = serializer.validated_data.get("lazy_position", None)
             scale = serializer.validated_data.get("scale", 0.2)
 
             if x_cord is not None and y_cord is not None:
@@ -139,7 +145,7 @@ class WatermarkVideoView(APIView):
         }
         extension = os.path.basename(video_path).split(".")[1]
         final_vid_path = f"src/video/media/watermarked_videos/overlayed_{os.path.basename(video_path).split('.')[0]}.{extension}"
-
+        # breakpoint()
         subprocess.run(
             [
                 "ffmpeg",
@@ -150,14 +156,13 @@ class WatermarkVideoView(APIView):
                 "-filter_complex",
                 f"[1][0]scale2ref=oh*mdar:ih*{scale}[logo][video];[video][logo]{pos[lazy_pos]}",  # noqa: E231
                 final_vid_path,
-                final_vid_path,
             ]
         )
         return final_vid_path
 
     def save_data_watermarked_video(self, data, video, scale):
         watermarked_video = WatermarkedVideo.objects.create(
-            user="tester", video=video, watermark_image=data["image_file"], scale=scale
+            video=video, watermark_image=data["image_file"], scale=scale
         )
 
         return watermarked_video

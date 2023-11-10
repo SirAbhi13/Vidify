@@ -4,8 +4,7 @@ from django.db import models
 
 
 class Video(models.Model):
-    # user = models.ForeignKey(User, on_delete=models.CASCADE)
-    user = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     video_file = models.FileField(
         upload_to="src/video/media/videos",
         validators=[
@@ -21,7 +20,6 @@ class Video(models.Model):
 
 
 class ProcessedVideo(models.Model):
-    # user = models.ForeignKey(User, on_delete=models.CASCADE)
     video = models.ForeignKey(Video, on_delete=models.CASCADE)
     audio_file = models.CharField(max_length=255)
     extraction_timestamp = models.DateTimeField(auto_now_add=True)
@@ -35,7 +33,6 @@ class ProcessedVideo(models.Model):
 
 
 class WatermarkedVideo(models.Model):
-    user = models.CharField(max_length=100)
     video = models.ForeignKey(Video, on_delete=models.CASCADE)
     watermark_image = models.ImageField(
         upload_to="src/video/media/images",

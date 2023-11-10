@@ -3,7 +3,6 @@ from rest_framework import serializers
 
 
 class AudioExtractionSerializer(serializers.Serializer):
-    user = serializers.CharField(required=True, max_length=50)
     video_file = serializers.FileField(
         validators=[
             FileExtensionValidator(
@@ -14,7 +13,6 @@ class AudioExtractionSerializer(serializers.Serializer):
 
 
 class WatermarkSerializer(serializers.Serializer):
-    # user = serializers.CharField(required=True, max_length=50)
     video_file = serializers.FileField(
         validators=[
             FileExtensionValidator(

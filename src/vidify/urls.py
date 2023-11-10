@@ -21,7 +21,6 @@ from video.views import AudioExtractionView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    # path("accounts/", include("accounts.urls")),
+    path("accounts/api/", include("accounts.urls", namespace="accounts")),
     path("video/api/", include("video.urls", namespace="video")),
-    # path("video/", AudioExtractionView.as_view())
 ]
