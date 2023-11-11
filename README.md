@@ -78,6 +78,9 @@
         - `docker compose down` command will stop running containers, but it also removes the stopped containers as well as any networks that were created.
 
 # How to use the App
+#### ACCEPTED IMAGE FORMATS : ["jpg", "png", "svg", "eps"]
+#### ACCEPTED VIDEO FORMATS : ["mp4", "avi", "mkv", "mov", "wmv"]
+
 
 1) Go to http://127.0.0.1:8000/accounts/api/signup/ and register a user
     - You need to send `username` and `password` fields.
@@ -106,4 +109,24 @@
         ```
     - In the body, send `video_file` field with a video, send `image_file` field with a an image/logo.
 
-    - Add the
+    - [OPTIONAL] SEND `scale` field to scale the watermark respective to height of video.
+        - Default value is `0.2`
+        - Value should be less than `1` and should have at most 3 decimals
+
+    - If you wish to use custom coordinates for the position of the watermark
+        - Send `custom_coordinate_X` field with the X position AND
+        - Send `custom_coordinate_Y` field with the Y position
+        - Both fields are important for this to work
+        - (0,0) is the top-left pixel in the video.
+        - Coordinates should be under the value of the resolution of the video.
+
+    - ### OR
+    - You can also use the predefined positions in the API
+    - Send `lazy_position` field with any of the following values:
+            - `top-left`
+            - `top-right`
+            - `bottom-right`
+            - `bottom-left`
+            - `center`
+    - If both coordinates and lazy_position is supplied, then the coordinates are given priority.
+    - Download the video with the watermark
