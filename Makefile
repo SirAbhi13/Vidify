@@ -9,5 +9,4 @@ setup:
 	python3 -m pip install poetry
 	poetry config virtualenvs.in-project true
 	cp .env.example .env
-	cd src/
-	poetry install --no-root
+	cd ./src/ && poetry install --no-root
