@@ -45,7 +45,9 @@
     ### Please ensure you have FFMPEG library installed
     1) Clone the repository and cd into it.
 
-    2) run the command `make setup` to install dependencies and create .env file from .env.example and start virtual environment.
+    2) run the command `make setup` to install dependencies and create .env file from .env.example.
+
+    3) Start the virtual environment by using the command `source src/.venv/bin/activate`.
 
     3) open .env file and add the appropriate values below `# FOR DJANGO APP` comment for the database settings (there are some place holder settings for docker use, replace them)
 
