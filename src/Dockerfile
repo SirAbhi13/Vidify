@@ -1,5 +1,6 @@
 # pull official base image
-FROM python:3.11.6-bookworm
+FROM python:3.11.4-slim-buster
+
 # set work directory
 WORKDIR /usr/Vidify/src
 
@@ -8,23 +9,15 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # install dependencies
-COPY ./poetry.lock .
-COPY ./pyproject.toml .
-RUN apt-get update && apt-get install gcc g++ -y
-RUN apt-get install ffmpeg -y
-RUN apt-get install libpq-dev -y
+RUN sed -i 's/htt[p|ps]:\/\/archive.ubuntu.com\/ubuntu\//mirror:\/\/mirrors.ubuntu.com\/mirrors.txt/g' /etc/apt/sources.list
+RUN apt-get update && apt-get install gcc g++ -y && apt-get install ffmpeg -y && apt-get install libpq-dev -y
+# RUN apt-get install ffmpeg -y
+# RUN apt-get install libpq-dev -y
+COPY . .
 RUN python3 -m pip install --upgrade pip
 RUN python3 -m pip install poetry
 RUN poetry config virtualenvs.create false
 RUN poetry install --no-root
-
-
-
-
-# copy project
-COPY . .
-
-
 
 # EXPOSE 8000
 
