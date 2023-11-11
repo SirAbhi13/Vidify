@@ -29,7 +29,7 @@ class WatermarkSerializer(serializers.Serializer):
     lazy_position = serializers.CharField(max_length=20, required=False)
     custom_coordinate_X = serializers.IntegerField(required=False)
     custom_coordinate_Y = serializers.IntegerField(required=False)
-    scale = serializers.DecimalField(max_digits=3, decimal_places=2, required=False)
+    scale = serializers.DecimalField(max_digits=3, decimal_places=3, required=False)
 
     def validate_lazy_position(self, value):
         lp = ["top-right", "top-left", "bottom-right", "bottom-left", "center"]
@@ -37,4 +37,9 @@ class WatermarkSerializer(serializers.Serializer):
             raise serializers.ValidationError(
                 "Not a valid lazy position. Acceptable positions are top-left, top-right, bottom-left, bottom-right"
             )
+        return value
+
+    def validate_scale(self, value):
+        if value > 1.0:
+            raise serializers.ValidationError("Value of scale should be less than 1")
         return value

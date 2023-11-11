@@ -45,7 +45,7 @@ class WatermarkedVideo(models.Model):
     lazy_position = models.CharField(max_length=20, null=True)
     custom_coordinate_X = models.IntegerField(null=True)
     custom_coordinate_Y = models.IntegerField(null=True)
-    scale = models.DecimalField(max_digits=3, decimal_places=2, default=0.2)
+    scale = models.DecimalField(max_digits=3, decimal_places=3, default=0.2)
 
     def __str__(self):
         return f"{self.video.video_file.name} - {self.watermark_image.name}"
