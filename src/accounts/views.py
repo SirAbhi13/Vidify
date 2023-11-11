@@ -41,6 +41,8 @@ class SignupView(APIView):
 
 
 class LoginView(APIView):
+    """A logic for user Login"""
+
     permission_classes = (AllowAny,)
     serializer_class = AuthenticationSerializer
 

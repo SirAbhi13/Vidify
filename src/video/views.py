@@ -22,6 +22,8 @@ authentication = getattr(settings, "AUTHENTICATION", True)
 
 
 class AudioExtractionView(APIView):
+    """Logic for audio extraction"""
+
     permission_classes = (IsAuthenticated if authentication else AllowAny,)
 
     def post(self, request):
@@ -54,6 +56,8 @@ class AudioExtractionView(APIView):
 
 
 class WatermarkVideoView(APIView):
+    """Logic for watermarking Video"""
+
     permission_classes = (IsAuthenticated if authentication else AllowAny,)
 
     def post(self, request):

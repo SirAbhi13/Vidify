@@ -2,6 +2,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 
 def get_tokens_for_user(user):
+    """generate token when a user logs in"""
     refresh = RefreshToken.for_user(user)
 
     return {

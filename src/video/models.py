@@ -4,6 +4,8 @@ from django.db import models
 
 
 class Video(models.Model):
+    """A model to store the data for the video sent in request"""
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     video_file = models.FileField(
         upload_to="src/video/media/videos",
@@ -20,11 +22,14 @@ class Video(models.Model):
 
 
 class ProcessedVideo(models.Model):
+    """A model to store the data for the processed video and the audio file path"""
+
     video = models.ForeignKey(Video, on_delete=models.CASCADE)
     audio_file = models.CharField(max_length=255)
     extraction_timestamp = models.DateTimeField(auto_now_add=True)
 
     def get_audio_file_object(self):
+        """API to allow file handling if required in future."""
         with open(self.audio_file, "rb") as file:
             yield file
 
@@ -33,11 +38,13 @@ class ProcessedVideo(models.Model):
 
 
 class WatermarkedVideo(models.Model):
+    """A model to store the data for watermarked video"""
+
     video = models.ForeignKey(Video, on_delete=models.CASCADE)
     watermark_image = models.ImageField(
         upload_to="src/video/media/images",
         validators=[
-            FileExtensionValidator(allowed_extensions=["jpg", "png"]),
+            FileExtensionValidator(allowed_extensions=["jpg", "png", "svg", "eps"]),
         ],
     )
     watermarked_video_path = models.CharField(max_length=255)
