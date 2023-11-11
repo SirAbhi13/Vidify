@@ -4,7 +4,9 @@
 
 - The application also implements custom watermark overlay feature where the user can either supply exact `x,y` coordinates or use predefined places to put watermark on.
 
-- The application also stores the details of the Videos and the Processed videos in the PostgreSQL db.
+- The application also stores the details of the Videos and the Processed videos and the user who uploaded them in the PostgreSQL db.
+
+- Uses User model of django and JWT token authentication to for user signup and login before using the API
 
 - The app follows a modular structure, with clear and concise code.
 - The application uses the `APIView` class from the django-rest-framework to have a better control over the backend api endpoints and responses.
@@ -99,7 +101,7 @@
     - Add the `Authorization` Header key to the request. The value will be `Bearer {token}`
         ```
         Example
-        Authorization : Bearer {pasted token copied above, without braces}
+        Authorization : Bearer {paste token copied above, without braces}
         ```
     - In the body, send `video_file` field with a video.
     - You will get a response with the mp3 file which can be downloaded.
@@ -108,7 +110,7 @@
     - Add the `Authorization` Header key to the request. The value will be `Bearer {token}`
         ```
         Example
-        Authorization : Bearer {pasted token copied above, without braces}
+        Authorization : Bearer {paste token copied above, without braces}
         ```
     - In the body, send `video_file` field with a video, send `image_file` field with a an image/logo.
 
@@ -133,3 +135,52 @@
             - `center`
     - If both coordinates and lazy_position is supplied, then the coordinates are given priority.
     - Download the video with the watermark
+
+
+# Description of Schema
+
+### Video Model
+- **Fields:**
+  - `user`: ForeignKey to the Django built-in `User` model, representing the user who uploaded the video.
+  - `video_file`: FileField storing the video file with specified upload location and file extension validation.
+  - `upload_timestamp`: DateTimeField set to auto_now_add, representing the timestamp of when the video was uploaded.
+
+---
+
+### ProcessedVideo Model
+- **Fields:**
+  - `video`: ForeignKey to the `Video` model, creating a relationship with the original video.
+  - `audio_file`: CharField storing the path to the audio file related to the processed video.
+  - `extraction_timestamp`: DateTimeField set to auto_now_add, representing the timestamp of when the audio was extracted.
+- **Methods:**
+  - `get_audio_file_object()`: An API method allowing file handling, yielding the binary file content.
+
+---
+
+### WatermarkedVideo Model
+- **Fields:**
+  - `video`: ForeignKey to the `Video` model, creating a relationship with the original video.
+  - `watermark_image`: ImageField storing the watermark image file with specified upload location and file extension validation.
+  - `watermarked_video_path`: CharField storing the path to the watermarked video file.
+  - `overlay_timestamp`: DateTimeField set to auto_now_add, representing the timestamp of when the video was watermarked.
+  - `lazy_position`: CharField with a maximum length of 20, allowing specification of a lazy position (nullable).
+  - `custom_coordinate_X`: IntegerField representing the custom X-coordinate for the watermark (nullable).
+  - `custom_coordinate_Y`: IntegerField representing the custom Y-coordinate for the watermark (nullable).
+  - `scale`: DecimalField representing the scale of the watermark with a default value of 0.2.
+
+
+# Screenshots
+
+#### Watermarking with **_top-left_** attribute and default scale
+![top-left](screenshots/top-left.png)
+
+#### Watermarking with **_top-right_** attribute and default scale
+![top-right](screenshots/top-right.png)
+#### Watermarking with **_bottom-left_** attribute and default scale
+![bottom-left](screenshots/bottom-left.png)
+#### Watermarking with **_bottom-right_** attribute and default scale
+![bottom-right](screenshots/bottom-right.png)
+#### Watermarking with **_center_** attribute and default scale
+![center](screenshots/center.png)
+#### Watermarking with **_custom_** coordinates and default scale
+![coordinates](screenshots/custom.png)
