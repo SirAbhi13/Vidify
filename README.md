@@ -1,1 +1,3 @@
-# Vidify
+# VIDIFY
+
+- This a

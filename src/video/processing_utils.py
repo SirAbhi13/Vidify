@@ -7,7 +7,7 @@ from rest_framework.response import Response
 
 from .models import ProcessedVideo, Video, WatermarkedVideo
 
-base_path = "src/video/media"
+base_path = "./video/media"
 
 
 def extract_audio(video_path):
@@ -23,8 +23,7 @@ def extract_audio(video_path):
 def overlay_watermark_with_coords(watermark_path, video_path, x_cord, y_cord, scale):
     """method to overlay watermark when coordinates are provided"""
     extension = os.path.basename(video_path).split(".")[1]
-    final_vid_path = f"{base_path}/watermarked_videos/overlayed_{os.path.basename(video_path).split('.')[0]}.{extension}"
-    # ffmpeg -i test_file.mp4 -i GitHub-logo.png -filter_complex "[1][0]scale2ref=oh*mdar:ih*0.1[logo][video];[video][logo]overlay=10:20" output_scaled1-0topleft1.mp4
+    final_vid_path = f"{base_path}/watermarked_videos/overlayed_{os.path.basename(video_path).split('.')[0]}.{extension}"  # noqa: E501
 
     subprocess.run(
         [

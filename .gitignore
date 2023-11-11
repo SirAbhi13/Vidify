@@ -27,7 +27,7 @@ wheels/
 /staticfiles
 __pycache__
 db.sqlite3
-media
+
 
 # Environments
 .venv
@@ -79,5 +79,8 @@ setup.cfg
 
 
 #uploaded files
-
-src/video/media
+*.mp4
+*.mp3
+*.png
+*.jpg
+*.avi

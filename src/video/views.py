@@ -68,9 +68,9 @@ class WatermarkVideoView(APIView):
                 user=request.user,
                 video_file=serializer.validated_data["video_file"],
             )
-            x_cord = serializer.validated_data.get("custom_coordinate_X", None)
-            y_cord = serializer.validated_data.get("custom_coordinate_Y", None)
-            lazy_pos = serializer.validated_data.get("lazy_position", None)
+            x_cord = serializer.validated_data.get("custom_coordinate_X")
+            y_cord = serializer.validated_data.get("custom_coordinate_Y")
+            lazy_pos = serializer.validated_data.get("lazy_position")
             scale = serializer.validated_data.get("scale", 0.2)
 
             if x_cord is not None and y_cord is not None:

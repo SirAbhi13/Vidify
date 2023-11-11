@@ -8,7 +8,7 @@ class Video(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     video_file = models.FileField(
-        upload_to="src/video/media/videos",
+        upload_to="./video/media/videos",
         validators=[
             FileExtensionValidator(
                 allowed_extensions=["mp4", "avi", "mkv", "mov", "wmv"]
@@ -42,7 +42,7 @@ class WatermarkedVideo(models.Model):
 
     video = models.ForeignKey(Video, on_delete=models.CASCADE)
     watermark_image = models.ImageField(
-        upload_to="src/video/media/images",
+        upload_to="./video/media/images",
         validators=[
             FileExtensionValidator(allowed_extensions=["jpg", "png", "svg", "eps"]),
         ],
