@@ -6,7 +6,6 @@
 
 - The application also stores the details of the Videos and the Processed videos in the PostgreSQL db.
 
-- The app also generates a chart of temperature over time using the 12 hrs forecast data of a city.
 - The app follows a modular structure, with clear and concise code.
 - The application uses the `APIView` class from the django-rest-framework to have a better control over the backend api endpoints and responses.
 - Makefile introduced for efficient local setup and development.
