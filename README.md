@@ -41,6 +41,8 @@
 # Local setup:
 
 1. **Running Directly From Repository**
+
+    ### Please ensure you have FFMPEG library installed
     1) Clone the repository and cd into it.
 
     2) run the command `make setup` to install dependencies and create .env file from .env.example.
