@@ -1,4 +1,8 @@
-*.mp4
-*.png
-*.mp3
-__pycache__/
+**/*.mp4
+**/*.mp3
+**/*.png
+**/*.jpg
+**/*.avi
+
+**/__pycache__/
+Dockerfile
