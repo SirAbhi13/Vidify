@@ -8,6 +8,6 @@ db:
 
 setup:
 	python3 -m pip install poetry
-	poetry config virtualenvs.in-project true
+	python3 -m poetry config virtualenvs.in-project true
 	cp .env.example .env
-	cd ./src/ && poetry install --no-root
+	cd ./src/ && python3 -m poetry install --no-root
