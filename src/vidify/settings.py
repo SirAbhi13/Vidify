@@ -159,3 +159,4 @@ SIMPLE_JWT = {
 }
 
 AUTHENTICATION = True
+MEDIA_ROOT = f"{BASE_DIR}/video/media/"

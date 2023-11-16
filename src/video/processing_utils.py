@@ -4,10 +4,13 @@ import subprocess
 from django.http import FileResponse
 from rest_framework import status
 from rest_framework.response import Response
-
+from django.conf import settings
 from .models import ProcessedVideo, Video, WatermarkedVideo
 
-base_path = "./video/media"
+base_path = getattr(settings, "MEDIA_ROOT", "src/video/media")
+
+
+# base_path = "./video/media"
 
 
 def extract_audio(video_path):

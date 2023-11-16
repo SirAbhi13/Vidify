@@ -8,7 +8,7 @@ class Video(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     video_file = models.FileField(
-        upload_to="./video/media/videos",
+        upload_to="videos/",
         validators=[
             FileExtensionValidator(
                 allowed_extensions=["mp4", "avi", "mkv", "mov", "wmv"]
